@@ -14,6 +14,7 @@ asarUnpack:
   - resources/**
 win:
   executableName: X1-Launcher
+  icon: build/icon.ico
   target:
     - target: nsis
       arch:
@@ -22,6 +23,9 @@ nsis:
   artifactName: X1-Launcher-Setup.${ext}
   shortcutName: X1 Launcher
   uninstallDisplayName: X1 Launcher
+  installerIcon: build/icon.ico
+  uninstallerIcon: build/icon.ico
+  installerHeaderIcon: build/icon.ico
   createDesktopShortcut: always
   createStartMenuShortcut: true
   oneClick: false
