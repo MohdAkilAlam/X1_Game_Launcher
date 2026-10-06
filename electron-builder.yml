@@ -29,6 +29,7 @@ nsis:
   createDesktopShortcut: always
   createStartMenuShortcut: true
   oneClick: false
+  perMachine: true
   allowToChangeInstallationDirectory: true
 mac:
   entitlementsInherit: build/entitlements.mac.plist
