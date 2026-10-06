@@ -1,0 +1,12 @@
+node_modules
+dist
+out
+.DS_Store
+.eslintcache
+*.log*
+*.tsbuildinfo
+
+# Exclude internal agent/context markdown files (keep only README.md)
+AGENTS.md
+PROJECT_CONTEXT.md
+TASK_LOG.md
