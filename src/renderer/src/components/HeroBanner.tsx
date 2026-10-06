@@ -16,7 +16,7 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({
   onLaunch,
   onTerminate
 }) => {
-  const coverUrl = getCoverDisplayUrl(game.coverPath)
+  const coverUrl = getCoverDisplayUrl(game.coverPath, game.coverUrl)
 
   return (
     <div className="relative w-full rounded-2xl overflow-hidden border border-primary-container/30 bg-surface-container-low group shadow-2xl">

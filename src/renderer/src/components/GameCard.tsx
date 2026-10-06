@@ -53,20 +53,31 @@ export const GameCard: React.FC<GameCardProps> = ({
     }
   }, [showMenu])
 
-  const coverUrl = getCoverDisplayUrl(game.coverPath)
+  const [currentCover, setCurrentCover] = useState<string | undefined>(() =>
+    getCoverDisplayUrl(game.coverPath, game.coverUrl)
+  )
+  const [hasError, setHasError] = useState(false)
+
+  useEffect(() => {
+    setCurrentCover(getCoverDisplayUrl(game.coverPath, game.coverUrl))
+    setHasError(false)
+  }, [game.coverPath, game.coverUrl])
 
   return (
     <div className="group relative flex flex-col bg-surface-container-low rounded-xl border border-outline-variant/60 hover:border-primary-container/80 transition-all duration-200 overflow-hidden shadow-lg hover:shadow-amber-glow/20">
       {/* 3:4 Aspect Ratio Cover Container */}
       <div className="relative aspect-[3/4] w-full bg-surface-container overflow-hidden">
-        {coverUrl ? (
+        {currentCover && !hasError ? (
           <img
-            src={coverUrl}
+            src={currentCover}
             alt={game.name}
             className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-            onError={(e) => {
-              // Hide broken image link
-              ;(e.target as HTMLElement).style.display = 'none'
+            onError={() => {
+              if (game.coverUrl && currentCover !== game.coverUrl) {
+                setCurrentCover(game.coverUrl)
+              } else {
+                setHasError(true)
+              }
             }}
           />
         ) : (

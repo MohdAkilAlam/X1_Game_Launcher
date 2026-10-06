@@ -1,5 +1,5 @@
 import { app, shell, BrowserWindow, ipcMain, protocol, net } from 'electron'
-import { join, extname } from 'path'
+import { join, extname, normalize } from 'path'
 import { existsSync, readFileSync } from 'fs'
 import { pathToFileURL } from 'url'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
@@ -76,12 +76,26 @@ app.whenReady().then(() => {
   // Register media handler for local cover images
   protocol.handle('x1-media', (request) => {
     try {
-      const cleanUrl = request.url.split('?')[0].split('#')[0]
-      const rawPath = decodeURIComponent(cleanUrl.replace(/^x1-media:\/\//, ''))
-      // Normalize path for Windows: strip leading slash before drive letter
-      const filePath = rawPath.replace(/^\/([a-zA-Z]:)/, '$1')
-      if (existsSync(filePath)) {
-        return net.fetch(pathToFileURL(filePath).toString())
+      const parsed = new URL(request.url)
+      // Check query parameter format: x1-media://artwork/?path=...
+      let resolvedPath = parsed.searchParams.get('path')
+
+      if (!resolvedPath) {
+        // Robust fallback for direct/legacy URL formats
+        if (/^[a-zA-Z]$/.test(parsed.host)) {
+          // Chromium parsed "x1-media:///C:/path" as host = "c", pathname = "/path"
+          resolvedPath = `${parsed.host.toUpperCase()}:${decodeURIComponent(parsed.pathname)}`
+        } else {
+          const raw = decodeURIComponent(request.url.replace(/^x1-media:\/\//, ''))
+          resolvedPath = raw.replace(/^\/([a-zA-Z]:)/, '$1')
+        }
+      }
+
+      if (resolvedPath) {
+        const normalized = normalize(resolvedPath)
+        if (existsSync(normalized)) {
+          return net.fetch(pathToFileURL(normalized).toString())
+        }
       }
     } catch (err) {
       console.error('[x1-media] Error serving media:', err)

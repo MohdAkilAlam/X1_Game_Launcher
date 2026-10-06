@@ -63,6 +63,28 @@ export class GameService {
         console.error('[GameService] Failed to download remote cover:', err)
       }
     }
+    // 3. Fallback: If no cover was provided, automatically identify game and download cover
+    else {
+      try {
+        const detection = await gameMetadataService.identifyAndSearch(input.executablePath)
+        const topResult = detection.results?.[0]
+        if (topResult?.coverUrl) {
+          input.coverUrl = topResult.coverUrl
+          if (!input.metadataId) input.metadataId = topResult.id
+          if (!input.developer) input.developer = topResult.developer
+          if (!input.publisher) input.publisher = topResult.publisher
+          if (!input.releaseDate) input.releaseDate = topResult.releaseDate
+          if (!input.description) input.description = topResult.description
+
+          const cached = await artworkService.downloadAndCacheCover(topResult.coverUrl, gameName, id)
+          if (cached) {
+            persistedCover = cached
+          }
+        }
+      } catch (err) {
+        console.error('[GameService] Auto metadata & cover detection fallback error:', err)
+      }
+    }
 
     const newGame: GameRecord = {
       id,

@@ -33,20 +33,22 @@ export function formatLastPlayed(timestamp: number | null): string {
  * Normalizes a local cover file path or remote image URL into a displayable browser src.
  * Converts local paths into privileged custom protocol URLs (x1-media://).
  */
-export function getCoverDisplayUrl(coverPath?: string): string | undefined {
-  if (!coverPath) return undefined
+export function getCoverDisplayUrl(coverPath?: string, coverUrl?: string): string | undefined {
+  const target = coverPath || coverUrl
+  if (!target) return undefined
   if (
-    coverPath.startsWith('http://') ||
-    coverPath.startsWith('https://') ||
-    coverPath.startsWith('data:')
+    target.startsWith('http://') ||
+    target.startsWith('https://') ||
+    target.startsWith('data:')
   ) {
-    return coverPath
+    return target
   }
-  if (coverPath.startsWith('x1-media://')) {
-    return coverPath
+  if (target.startsWith('x1-media://')) {
+    return target
   }
 
-  // Convert Windows/POSIX file path to x1-media:/// protocol URL
-  const normalized = coverPath.replace(/\\/g, '/')
-  return `x1-media:///${normalized.startsWith('/') ? normalized.slice(1) : normalized}`
+  // Convert Windows/POSIX file path to x1-media:// protocol URL using query parameter
+  // This prevents Chromium from stripping drive colons in Windows paths (e.g. C:)
+  return `x1-media://artwork/?path=${encodeURIComponent(target)}`
 }
+
