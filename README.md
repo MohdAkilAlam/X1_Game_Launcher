@@ -26,9 +26,9 @@
   <img src="docs/screenshots/01_dashboard_home.png" alt="X1 Launcher Dashboard" width="100%" />
 </div>
 
-- **Hero Banner Showcase:** Dynamically highlights your active or most recently played title with an immersive high-definition backdrop, total playtime logged, and relative last-played timestamps.
-- **Active Process Monitor:** Real-time pulse indicator communicating running game state (`ACTIVE PROCESS`).
-- **RAM & Hardware Telemetry:** The sidebar constantly tracks active memory utilization and available system headroom.
+- **Dynamic Hero Banner:** Automatically showcases your active or most recently played title with an immersive backdrop, playtime counter (e.g., `124.0 hrs logged`), relative time since last session, and a glowing amber **PLAY NOW** launcher button.
+- **Recently Played Shelf:** Fast-access carousel displaying recently engaged games with vertical box art, hours logged, and quick play triggers.
+- **Hardware & Memory Telemetry:** The sidebar constantly tracks active memory utilization and available system headroom with a live status indicator (`Core Ready v0.1.0`).
 
 ---
 
@@ -47,30 +47,55 @@
 2. **Online Metadata Queries:**
    - Queries public game databases (Steam Store API out-of-the-box with optional Twitch/IGDB API key support).
 3. **Interactive Confirmation Dialog:**
-   - Displays detected cover art, developer, publisher, release date, and story synopsis before saving.
-   - **Multiple Results Selection:** If sequels or editions exist (e.g., *Elden Ring Nightreign*, *Shadow of the Erdtree*), users can switch candidates with one click.
+   - Displays detected 600x900 cover preview, studio developer, publisher, release date, and story synopsis before saving.
+   - **Multiple Results Candidate Selection:** If sequels, DLCs, or special editions exist (e.g., *Elden Ring*, *Nightreign*, *Shadow of the Erdtree*), users can switch candidates with one click via `Choose Different Result`.
    - **Manual Search Fallback:** Obscure or custom executables can be searched manually or added without artwork using tactical placeholders.
 4. **Local Cover Caching:**
-   - Downloads artwork and stores it locally inside `AppData/Roaming/my-game-launcher/covers/` using safe filenames (e.g., `elden-ring.jpg`). Images load securely using the privileged `x1-media://` protocol.
+   - Downloads artwork and stores it locally inside `AppData/Roaming/my-game-launcher/covers/` using safe slugified filenames (e.g., `elden-ring.jpg`). Images load securely using the privileged `x1-media://` protocol.
 
 ---
 
 ### 3. Organized Game Library & Multi-Criteria Filtering
-> *Manage hundreds of installed games in a tactical, responsive 3:4 grid.*
+> *Manage hundreds of installed games in a responsive, tactical 3:4 poster grid.*
 
 <div align="center">
   <img src="docs/screenshots/02_game_library.png" alt="Game Library Grid" width="100%" />
 </div>
 
-- **Responsive Poster Grid:** 3:4 aspect ratio cards built with hover scrim overlays, playtime badges, and platform tags (`Steam Native`, `Epic Native`, `PC / Windows`).
-- **Interactive Context Menu:**
-  - **Change Artwork:** Search new online posters or upload a local image (`.png`, `.jpg`, `.webp`).
-  - **Refresh Artwork:** Re-queries metadata databases for updated high-res assets.
-  - **Find Artwork:** Quick one-click detector for legacy titles added without covers.
+- **Responsive Poster Grid:** Clean 3:4 aspect ratio cards built with subtle hover lighting, playtime badges, and platform tags (`Steam Native`, `Epic Games`, `GOG Galaxy`, `PC / Windows`).
+- **One-Click Play & Status Badges:** Launch games directly with smooth hover transitions, tracking playtime automatically.
 - **Global Search & Filter Tabs:**
   - Instant title search with `Ctrl + F` keyboard shortcut.
-  - Filter by `All Games`, `Installed`, or `Favorites`.
-  - Sort by *Recently Played*, *Alphabetical (A-Z)*, *Most Played*, or *Recently Added*.
+  - Quick filter tabs: `All Games`, `Installed`, or `Favorites`.
+  - Multi-criteria sorting: *Recently Played*, *Alphabetical (A-Z)*, *Most Played*, or *Recently Added*.
+
+---
+
+### 4. Online Artwork Search & Custom Cover Customization
+> *Easily change posters, search alternative editions, or upload custom artwork from your local drive.*
+
+<div align="center">
+  <img src="docs/screenshots/04_artwork_modal.png" alt="Change Artwork Modal" width="100%" />
+</div>
+
+- **Context Menu Integration:** Right-click or click `⋮` on any game card to trigger **Change Artwork** or **Refresh Artwork**.
+- **Live Online Search:** Browse alternative high-definition posters, franchise editions, and spinoff artwork directly from Steam's database.
+- **Candidate Switching:** Select between different box art variations with instant visual feedback and active selection badges.
+- **Local Image Upload:** Switch to the `Choose Local Image` tab to upload personal custom artwork files (`.png`, `.jpg`, `.webp`).
+
+---
+
+### 5. System Preferences & Hardware Diagnostics
+> *Fine-tune launcher behavior, manage directories, and inspect hardware performance.*
+
+<div align="center">
+  <img src="docs/screenshots/05_settings_telemetry.png" alt="Launcher Settings & Telemetry" width="100%" />
+</div>
+
+- **Startup & Background Controls:** Toggle *Run on System Startup*, *Minimize to System Tray*, and *Start Minimized* for zero-friction launch experiences.
+- **Default Installation Paths:** Configure your primary games directory (e.g., `C:\Games`) and re-scan the entire library with a single click.
+- **Theme & Aesthetic Customization:** Solar Amber & Obsidian dark mode optimized for OLED monitors and high-contrast gaming setups.
+- **Diagnostics:** Comprehensive system memory and hardware telemetry monitor.
 
 ---
 
